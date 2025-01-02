@@ -5,7 +5,7 @@ This PowerShell script provides a simple way to quickly set up your machine by i
 
 1. Open PowerShell
 2. Run the script using the following command
-``` iwr -useb bit.ly/handyscript```
+``` irm bit.ly/handyscript | iex ```
 
 # Usage
 Toggle the switches and then type `START` to run commands together.
