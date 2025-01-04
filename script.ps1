@@ -28,7 +28,7 @@ function Display-Menu {
     Clear-Host
     # Menu Header
     Write-Host "╔════════════════════════════════════════════════════╗" -ForegroundColor Cyan
-    Write-Host "║                      MAIN MENU                    ║" -ForegroundColor Cyan
+    Write-Host "║                      MAIN MENU                     ║" -ForegroundColor Cyan
     Write-Host "╚════════════════════════════════════════════════════╝" -ForegroundColor Cyan
     Write-Host ""
 
