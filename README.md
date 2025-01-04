@@ -1,4 +1,4 @@
-# Handyscripts
+# Handyscript
 
 This PowerShell script provides a simple way to quickly set up your machine by installing essential tools and applications. With just a few selections, you can automate the installation process and get your system ready in no time.
 
