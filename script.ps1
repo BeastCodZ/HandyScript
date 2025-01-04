@@ -7,7 +7,7 @@ $global:Tasks = @(
     Name = "Activate Microsoft Windows 10 || 11";
     Selected = $false; 
     Action = { 
-            $cmdUrl = 'https://raw.githubusercontent.com/massgravel/Microsoft-Activation-Scripts/refs/heads/master/MAS/Separate-Files-Version/Activators/Online_KMS_Activation.cmd /K-Windows';
+            $cmdUrl = 'https://raw.githubusercontent.com/massgravel/Microsoft-Activation-Scripts/refs/heads/master/MAS/Separate-Files-Version/Activators/Online_KMS_Activation.cmd';
             $tempFile = "$env:TEMP\Online_KMS_Activation.cmd";
             Invoke-RestMethod -Uri $cmdUrl -OutFile $tempFile;
             Start-Process -FilePath "cmd.exe" -ArgumentList "/c $tempFile /K-Windows" -Wait;
@@ -18,7 +18,7 @@ $global:Tasks = @(
     Name = "Activate MS OFFICE"; 
     Selected = $false; 
     Action = { 
-            $cmdUrl = 'https://raw.githubusercontent.com/massgravel/Microsoft-Activation-Scripts/refs/heads/master/MAS/Separate-Files-Version/Activators/Online_KMS_Activation.cmd /K-Office';
+            $cmdUrl = 'https://raw.githubusercontent.com/massgravel/Microsoft-Activation-Scripts/refs/heads/master/MAS/Separate-Files-Version/Activators/Online_KMS_Activation.cmd';
             $tempFile = "$env:TEMP\Online_KMS_Activation.cmd";
             Invoke-RestMethod -Uri $cmdUrl -OutFile $tempFile;
             Start-Process -FilePath "cmd.exe" -ArgumentList "/c $tempFile /K-Office" -Wait;
