@@ -1,4 +1,9 @@
-# Initialize global task list
+# Check if the script is running with admin privileges
+if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    Write-Host "This script must be run as an administrator." -ForegroundColor Red
+    exit
+}
+
 $global:Tasks = @(
     @{ Name = "Install Brave"; Selected = $false; Action = { winget install -e --id Brave.Brave } },
     @{ Name = "Install SpotX"; Selected = $false; Action = { iex "& { $(iwr -useb 'https://raw.githubusercontent.com/SpotX-Official/spotx-official.github.io/main/run.ps1') } -confirm_uninstall_ms_spoti -confirm_spoti_recomended_over -podcasts_off -block_update_on -start_spoti -new_theme -adsections_off -lyrics_stat spotify" } },
@@ -27,7 +32,7 @@ $global:Tasks = @(
 }
 )
 
-# Function to reset all tasks to off (optional if everything starts as $false)
+# Function to reset all tasks to off
 function Reset-Tasks {
     foreach ($task in $global:Tasks) {
         $task.Selected = $false
