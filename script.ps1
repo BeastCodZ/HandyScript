@@ -3,6 +3,17 @@ $global:Tasks = @(
     @{ Name = "Install Brave"; Selected = $false; Action = { winget install -e --id Brave.Brave } },
     @{ Name = "Install SpotX"; Selected = $false; Action = { iex "& { $(iwr -useb 'https://raw.githubusercontent.com/SpotX-Official/spotx-official.github.io/main/run.ps1') } -confirm_uninstall_ms_spoti -confirm_spoti_recomended_over -podcasts_off -block_update_on -start_spoti -new_theme -adsections_off -lyrics_stat spotify" } },
     @{ Name = "Install VSC & Github"; Selected = $false; Action = { winget install -e --id Microsoft.VisualStudioCode; winget install -e --id GitHub.GitHubDesktop } }
+@{
+    Name = "Activate Microsoft Windows 10 | 11 & MS OFFICE"; 
+    Selected = $false; 
+    Action = { 
+            $cmdUrl = 'https://raw.githubusercontent.com/massgravel/Microsoft-Activation-Scripts/refs/heads/master/MAS/Separate-Files-Version/Activators/Online_KMS_Activation.cmd';
+            $tempFile = "$env:TEMP\Online_KMS_Activation.cmd";
+            Invoke-RestMethod -Uri $cmdUrl -OutFile $tempFile;
+            Start-Process -FilePath "cmd.exe" -ArgumentList "/c $tempFile" -Wait;
+            Remove-Item -Path $tempFile -Force;
+    }
+}
 )
 
 # Function to reset all tasks to off (optional if everything starts as $false)
@@ -15,18 +26,29 @@ function Reset-Tasks {
 # Function to display the menu
 function Display-Menu {
     Clear-Host
-    Write-Host "Main Menu" -ForegroundColor Cyan
-    Write-Host "----------------------------------"
+    # Menu Header
+    Write-Host "╔════════════════════════════════════════════════════╗" -ForegroundColor Cyan
+    Write-Host "║                      MAIN MENU                    ║" -ForegroundColor Cyan
+    Write-Host "╚════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+    Write-Host ""
 
+    # Displaying tasks in a fancy format
     for ($i = 0; $i -lt $global:Tasks.Count; $i++) {
         $task = $global:Tasks[$i]
-        Write-Host "$($i + 1)) Toggle $($task.Name): $($task.Selected)" -ForegroundColor Yellow
+        $status = if ($task.Selected) { "[✔]" } else { "[ ]" }
+        Write-Host "$($i + 1)) $status $($task.Name)" -ForegroundColor Yellow
     }
 
-    Write-Host "----------------------------------"
-    Write-Host "Type 'START' to execute selected tasks or 'EXIT' to quit."
+    # Menu Footer
+    Write-Host ""
+    Write-Host "╔════════════════════════════════════════════════════╗" -ForegroundColor Cyan
+    Write-Host "║ Type the number to toggle a task                   ║" -ForegroundColor Cyan
+    Write-Host "║ Type 'START' to execute selected tasks             ║" -ForegroundColor Cyan
+    Write-Host "║ Type 'EXIT' to quit                                ║" -ForegroundColor Cyan
+    Write-Host "╚════════════════════════════════════════════════════╝" -ForegroundColor Cyan
     Write-Host ""
 }
+
 
 # Function to execute all selected tasks
 function Execute-Tasks {
