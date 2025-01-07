@@ -110,14 +110,14 @@ function Display-InstallMenu {
             Write-Host "Installing: $($global:InstallTasks[$taskIndex].Name)" -ForegroundColor Green
             & $global:InstallTasks[$taskIndex].Action
         } elseif ($choice.ToUpper() -eq "BACK") {
-            break
+            return
         } else {
             Write-Host "Invalid choice. Please try again." -ForegroundColor Red
         }
     } while ($true)
 }
 
-# Main tasks
+# Other tasks
 $global:Tasks = @(
     @{ 
         Name    = "Installation Menu"; 
@@ -187,33 +187,37 @@ $global:Tasks = @(
 #                Core Menu Functions                   #
 ########################################################
 
+# Function to reset all tasks to off
 function Reset-Tasks {
     foreach ($task in $global:Tasks) {
         $task.Selected = $false
     }
 }
 
+# Function to display the menu
 function Display-Menu {
     Clear-Host
     Show-AsciiHeader -Title "MAIN MENU" -Color Green -Width 54
-
     for ($i = 0; $i -lt $global:Tasks.Count; $i++) {
         $task = $global:Tasks[$i]
         $status = if ($task.Selected) { "[✔]" } else { "[ ]" }
         Write-Host "$($i + 1)) $status $($task.Name)" -ForegroundColor Yellow
     }
-
     Show-AsciiFooter -Message "Type the number to toggle a task | START to execute | EXIT to quit" -Color Green -Width 54
 }
 
+# Function to execute all selected tasks
 function Execute-Tasks {
-    Write-Host "Executing selected tasks..." -ForegroundColor Green
+    Write-Host "Executing selected tasks..." -ForegroundColor Yellow
 
     foreach ($task in $global:Tasks) {
         if ($task.Selected) {
-            Write-Host "Executing: $($task.Name)" -ForegroundColor Green
+            Write-Host "Executing: $($task.Name)" -ForegroundColor Cyan
+            Start-Sleep -Seconds 2
             & $task.Action
-            Write-Host "Task complete: $($task.Name)" -ForegroundColor Green
+            Write-Host "Task complete: $($task.Name)" -ForegroundColor Cyan
+            $task.Selected = $false
+            Display-Menu
         }
     }
 
@@ -237,7 +241,6 @@ do {
     } 
     elseif ($choice.ToUpper() -eq "START") {
         Execute-Tasks
-        break
     } 
     elseif ($choice.ToUpper() -eq "EXIT") {
         Write-Host "Exiting..." -ForegroundColor Red
