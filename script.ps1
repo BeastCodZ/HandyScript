@@ -180,6 +180,52 @@ $global:Tasks = @(
             Write-Host "Starting Windows Update Service..." -ForegroundColor Green
             Invoke-CommandAsAdmin -Command "Start-Service wuauserv"
         }
+    },
+    @{ 
+        Name    = "Clear DNS Cache"; 
+        Selected= $false; 
+        Action  = { 
+            Write-Host "Clearing DNS Cache..." -ForegroundColor Green
+            Invoke-CommandAsAdmin -Command "ipconfig /flushdns"
+        } 
+    },
+    @{ 
+        Name    = "Clear ARP Cache"; 
+        Selected= $false; 
+        Action  = { 
+            Write-Host "Clearing ARP Cache..." -ForegroundColor Green
+            Invoke-CommandAsAdmin -Command "arp -d"
+        } 
+    },
+    @{
+        Name = "Clear Thumbnail Cache";
+        Selected = $false;
+        Action = {
+            Write-Host "Clearing Thumbnail Cache..." -ForegroundColor Green
+            Invoke-CommandAsAdmin -Command "Remove-Item -Path 'C:\Users\$env:USERNAME\AppData\Local\Microsoft\Windows\Explorer\*' -Recurse -Force -ErrorAction SilentlyContinue"
+        }
+    },
+    @{
+        Name = "Clear Windows Search Cache";
+        Selected = $false;
+        Action = {
+            Write-Host "Clearing Windows Search Cache..." -ForegroundColor Green
+            Invoke-CommandAsAdmin -Command "Remove-Item -Path 'C:\ProgramData\Microsoft\Search\Data\*' -Recurse -Force -ErrorAction SilentlyContinue"
+        }
+    },
+    @{
+        Name = "Clear Windows Store Cache";
+        Selected = $false;
+        Action = {
+            Write-Host "Clearing Windows Store Cache..." -ForegroundColor Green
+            Invoke-CommandAsAdmin -Command "Get-AppxPackage -AllUsers | Remove-AppxPackage -ErrorAction SilentlyContinue"
+            Invoke-CommandAsAdmin -Command "Get-AppxProvisionedPackage -Online | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue"
+        }
+    },
+    @{
+        Name = "Reset Tasks";
+        Selected = $false;
+        Action = { Reset-Tasks }
     }
 )
 
